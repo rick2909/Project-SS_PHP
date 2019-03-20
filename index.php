@@ -9,8 +9,8 @@
     <script src="main.js"></script> -->
 </head>
 <body>
-    <h1>Het werkt</h1>
-    <p>Gefeliciteert het de website is online</p>
-    <a href="./phpmyadmin/" >Go to phpMyAdmin</a>
+    <h1>Het werkt!</h1>
+    <p>Gefeliciteert de website is online!</p>
+    <a href="./phpmyadmin/" >Go to phpMyAdmin</a>.
 </body>
 </html>
