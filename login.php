@@ -28,9 +28,6 @@ if (strlen($email) > 0 && strlen($password) > 0) {
 	//check if login correct
 	if (mysqli_num_rows($result) == 1){
 		$rows = [];
-		while($r = mysqli_fetch_assoc($result) {
-			$rows[] = $r;
-		}
 
 		$_SESSION['user'] = "admin";
 		$response['error'] = FALSE;
