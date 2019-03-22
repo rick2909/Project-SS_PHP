@@ -27,12 +27,12 @@ if (strlen($email) > 0 && strlen($password) > 0) {
 
 	//check if login correct
 	if (mysqli_num_rows($result) == 1){
-		$rows = [];
+		$user = mysqli_fetch_assoc($result);
 
 		$_SESSION['user'] = "admin";
 		$response['error'] = FALSE;
 		$response['message'] = "u bent ingelogd";
-		$response['user'] = json_encode($rows);
+		$response['user'] = json_encode($user);
 	} else {
 		$response['message'] = 'verkeerde wachtwoord en of gebruikersnaam';
 	}
