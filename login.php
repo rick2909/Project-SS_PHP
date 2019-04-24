@@ -1,7 +1,7 @@
 <?php
 session_start();
 //lees het config
-require_once 'include/config.inc.php';
+require_once 'include/config2.inc.php';
 
 //lees post
 $a = $_POST['email'];
@@ -27,10 +27,11 @@ if (strlen($email) > 0 && strlen($password) > 0) {
 
 	//check if login correct
 	if (mysqli_num_rows($result) == 1){
+		$user = mysqli_fetch_assoc($result);
 		$_SESSION['user'] = "admin";
 		$response['error'] = FALSE;
 		$response['message'] = "u bent ingelogd";
-		$response['user'] = $result;
+		$response['user'] = $user;
 	} else {
 		$response['message'] = 'verkeerde wachtwoord en of gebruikersnaam';
 	}
