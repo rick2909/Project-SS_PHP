@@ -15,7 +15,7 @@
 
     
     <form action="api.php" method="post">
-    <input type="text" name="function" value="login" />
+    <input type="text" name="function" value="getMaps" />
     <input type="text" name="email" value="test@test.nl" />
     <input type="text" name="password" value="geheim123" />
     <input type="hidden" name="id" value="1" />
