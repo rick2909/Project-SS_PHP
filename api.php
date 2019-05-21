@@ -71,20 +71,38 @@ function getMaps($arguments, $mysqli){
 
     // haal de mensen op die in het rooster staan
     $rooster = getRooster($arguments, $mysqli);
+    $rooster = json_decode($rooster, TRUE);
 
-    $rooster1 = json_decode($rooster, TRUE);
-    $clienten = $rooster1['rooster'];
+    if( !$rooster['error'] ){
+        $clienten = $rooster['rooster'];
 
-    if(count($clienten) > 1{
-        $query = "SELECT * FROM `rooster` WHERE `gebruikers-id` = '$id'";
+        $locations = array();
+        $clientenGegevens = array();
+        foreach($clienten as $roosterClient){
+            $clientId = $roosterClient['id'];
 
-        $result = mysqli_query($mysqli, $query);
+            $query = "SELECT `id`, `achternaam`, `initialen`, `Geslacht`, `locatie-id` FROM `gebruikers` WHERE `id` = '$clientId'";
+            $result = mysqli_query($mysqli, $query);
 
-        
+            if(mysqli_num_rows($result) == 1){
+                $client = mysqli_fetch_assoc( $result );
 
-            return;
-        } else {
-            $response['message'] = 'Gebruiker heeft geen rooster';
+                $clientenGegevens[] = $client;
+
+                $locatieId = $client['locatie-id'];
+
+                $query = "SELECT * FROM `locatie` WHERE `id` = '$locatieId'";
+                $result = mysqli_query($mysqli, $query);
+
+                if(mysqli_num_rows($result) == 1){
+                    $locations[$client['id']] = mysqli_fetch_assoc( $result );
+                }
+            }
+
+            $response['error'] = FALSE;
+            $response['locaties'] = $locations;
+            $response['clienten'] = $clientenGegevens;
+            $response['message'] = 'Hier de locaties.';
         }
     }else{
         $response['message'] = 'Er zijn geen clienten vandaag. U bent vrij!';
@@ -128,7 +146,7 @@ function getRooster($arguments, $mysqli){
                     $response['error'] = FALSE;
                     $response['message'] = 'Rooster ophalen was succesvol';
                 } else{
-                    $response['message'] = 'U heeft geen clienten';
+                    $response['message'] = 'U heeft geen clienten op deze dag';
                 }
             } else {
                 $response['message'] = 'ID was onjuist';
@@ -139,7 +157,6 @@ function getRooster($arguments, $mysqli){
     }else{
         $response['message'] = 'Er is geen id opgegeven';
     }
-    echo json_encode($response);
     return json_encode($response);;
 }
 
