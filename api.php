@@ -157,7 +157,7 @@ function getRooster($arguments, $mysqli){
     }else{
         $response['message'] = 'Er is geen id opgegeven';
     }
-    return json_encode($response);;
+    return json_encode($response);
 }
 
 function upadateProtocal($arguments, $mysqli){
