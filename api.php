@@ -160,4 +160,30 @@ function getRooster($arguments, $mysqli){
     return json_encode($response);;
 }
 
+function upadateProtocal($arguments, $mysqli){
+    $id = $arguments['id'];
+    $protocol = $arguments['protocol'];
+
+    //make response
+    $response = array();
+
+    if(strlen($id) > 0){
+        $query = "UPDATE `raporteren` SET `Protocol` = '$protocol' WHERE gebruikers_id = '$id'";
+
+        if(mysqli_query($mysqli, $query)){
+            $response['message'] = 'Update is succesfull';
+            $response['error'] = FALSE;
+        }else{
+            $response['message'] = 'er was een probleem opgetrede probeer later opnieuw of meldt het aan een admin';
+            $response['error'] = TRUE;
+        }
+    }else{
+        $response['message'] = 'Geen id opgegeven';
+        $response['error'] = TRUE;
+    }
+
+    echo json_encode($response);
+    return json_encode($response);
+}
+
 ?>
