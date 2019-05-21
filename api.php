@@ -160,7 +160,7 @@ function getRooster($arguments, $mysqli){
     return json_encode($response);
 }
 
-function upadateProtocal($arguments, $mysqli){
+function upadateProtocol($arguments, $mysqli){
     $id = $arguments['id'];
     $protocol = $arguments['protocol'];
 
@@ -171,7 +171,7 @@ function upadateProtocal($arguments, $mysqli){
         $query = "UPDATE `raporteren` SET `Protocol` = '$protocol' WHERE gebruikers_id = '$id'";
 
         if(mysqli_query($mysqli, $query)){
-            $response['message'] = 'Update is succesfull';
+            $response['message'] = 'Update is succesvol met: ' . $protocol;
             $response['error'] = FALSE;
         }else{
             $response['message'] = 'er was een probleem opgetrede probeer later opnieuw of meldt het aan een admin';
@@ -182,7 +182,32 @@ function upadateProtocal($arguments, $mysqli){
         $response['error'] = TRUE;
     }
 
-    echo json_encode($response);
+    return json_encode($response);
+}
+
+function getProtocol($arguments, $mysqli){
+    $id = $arguments['id'];
+
+    //make response
+    $response = array();
+    $response['error'] = TRUE;
+
+    if(strlen($id) > 0){
+        $query = "SELECT * FROM `raporteren` WHERE gebruikers_id = '$id'";
+        $result = mysqli_query($mysqli, $query);
+
+        if(mysqli_num_rows($result) == 1){
+            $response['Protocol'] = mysqli_fetch_assoc( $result );
+            $response['message'] = 'Protocol is succesvol opgehaalt';
+            $response['error'] = FALSE;
+        }else {
+            $response['message'] = 'Er is geen protocol voor deze persoon melt het of maak er een aan';
+        }
+
+    }else{
+        $response['message'] = 'Geen id opgegeven';
+    }
+
     return json_encode($response);
 }
 
