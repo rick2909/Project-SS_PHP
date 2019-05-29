@@ -56,7 +56,7 @@ function login($arguments, $mysqli){
         $response['message'] = 'Er is niks ingevoerd';
     }
     echo json_encode($response);
-    return;
+    return json_encode($response);
 }
 
 function getMaps($arguments, $mysqli){
@@ -113,11 +113,20 @@ function getMaps($arguments, $mysqli){
 
 function getRooster($arguments, $mysqli){
     $id = $arguments['id'];
-    $dag = $arguments['dag'];
 
     //make response
     $response = array();
     $response['error'] = TRUE;
+
+    $days = [
+        1 => 'Maandag',
+        2 => 'Dinsdag',
+        3 => 'Woensdag',
+        4 => 'Donderdag',
+        5 => 'Vrijdag',
+        6 => 'Zaterdag',
+        7 => 'Zondag'
+    ];
 
     // haal de mensen op die in het rooster staan
     if(strlen($id) > 0){
@@ -132,15 +141,17 @@ function getRooster($arguments, $mysqli){
             $roosterId = $rooster['id'];
 
             if( isset($roosterId) ){
-                $query = "SELECT * FROM `rooster_gebruikers` WHERE `rooster-id` = '$roosterId' AND `dag` = '$dag' ORDER BY `tijd`";
+                $query = "SELECT * FROM `rooster_gebruikers` WHERE `rooster-id` = '$roosterId' ORDER BY `tijd`";
 
                 $result = mysqli_query($mysqli, $query);
 
                 if(mysqli_num_rows($result) >= 1){
                     $data = array();
                     while ($row = mysqli_fetch_assoc( $result )){
+                        $row['dagVanDeWeek'] = $days[$row['dagVanDeWeek']];
                         $data[] = $row;
                     }
+
                     //create response
                     $response['rooster'] = $data;
                     $response['error'] = FALSE;
@@ -157,6 +168,7 @@ function getRooster($arguments, $mysqli){
     }else{
         $response['message'] = 'Er is geen id opgegeven';
     }
+    echo json_encode($response);
     return json_encode($response);
 }
 
@@ -182,6 +194,7 @@ function upadateProtocol($arguments, $mysqli){
         $response['error'] = TRUE;
     }
 
+    echo json_encode($response);
     return json_encode($response);
 }
 
@@ -207,7 +220,7 @@ function getProtocol($arguments, $mysqli){
     }else{
         $response['message'] = 'Geen id opgegeven';
     }
-
+    echo json_encode($response);
     return json_encode($response);
 }
 
