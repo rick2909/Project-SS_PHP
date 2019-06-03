@@ -179,7 +179,7 @@ function upadateProtocol($arguments, $mysqli){
     //make response
     $response = array();
 
-    if(strlen($id) > 0){
+    if(strlen($id) > 0 && strlen($protocol)){
         $query = "UPDATE `raporteren` SET `Protocol` = '$protocol' WHERE gebruikers_id = '$id'";
 
         if(mysqli_query($mysqli, $query)){
@@ -217,6 +217,58 @@ function getProtocol($arguments, $mysqli){
             $response['message'] = 'Er is geen protocol voor deze persoon melt het of maak er een aan';
         }
 
+    }else{
+        $response['message'] = 'Geen id opgegeven';
+    }
+    echo json_encode($response);
+    return json_encode($response);
+}
+
+function getOpmerkingen($arguments, $mysqli){
+    $id = $arguments['id'];
+
+    //make response
+    $response = array();
+    $response['error'] = TRUE;
+
+    if(strlen($id) > 0){
+        $protocol = getProtocol($arguments, $mysqli);
+        $protocol = json_decode($protocol, TRUE);
+
+        if(mysqli_num_rows($result) == 1){
+            $response['Protocol'] = mysqli_fetch_assoc( $result );
+            $response['message'] = 'Protocol is succesvol opgehaalt';
+            $response['error'] = FALSE;
+        }else {
+            $response['message'] = 'Er is geen protocol voor deze persoon melt het of maak er een aan';
+        }
+
+    }else{
+        $response['message'] = 'Geen id opgegeven';
+    }
+
+    echo json_encode($response);
+    return json_encode($response);
+}
+
+function addOpmerking($arguments, $mysqli){
+    $id = $arguments['id'];
+    $titel = $arguments['titel'];
+    $opmerking = $arguments['opmerking'];
+
+    //make response
+    $response = array();
+    $response['error'] = TRUE;
+
+    if(strlen($id) > 0 && strlen($titel) > 0 && strlen($opmerking) > 0){
+        $query = "INSERT INTO `opmerekingen` (`id`, `titel`, `opmerking`, `raport_id`) VALUES (NULL, '$titel', '$opmerking', '$id')";
+
+        if(mysqli_query($mysqli, $query)){
+            $response['message'] = 'Toevoegen is succesvol met: ' . $titel;
+            $response['error'] = FALSE;
+        }else{
+            $response['message'] = 'er was een probleem opgetreden probeer later opnieuw of meldt het aan een admin';
+        }
     }else{
         $response['message'] = 'Geen id opgegeven';
     }
