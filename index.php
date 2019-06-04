@@ -11,7 +11,8 @@
 <body>
     <h1>Het werkt!</h1>
     <p>Gefeliciteert de website is online!</p>
-    <a href="./phpmyadmin/" >Go to phpMyAdmin</a>.
+    <a href="./phpmyadmin/" >Go to phpMyAdmin</a>.<br>
+    <a href="seeder.php" >Fill my database</a>.
 
     
     <form action="api.php" method="post">
