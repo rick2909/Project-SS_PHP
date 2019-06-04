@@ -141,14 +141,14 @@ function getRooster($arguments, $mysqli){
             $roosterId = $rooster['id'];
 
             if( isset($roosterId) ){
-                $query = "SELECT * FROM `rooster_gebruikers` WHERE `rooster-id` = '$roosterId' ORDER BY `tijd`";
+                $query = "SELECT * FROM `client_in_rooster` WHERE `rooster-id` = '$roosterId' ORDER BY `tijd`";
 
                 $result = mysqli_query($mysqli, $query);
 
                 if(mysqli_num_rows($result) >= 1){
                     $data = array();
                     while ($row = mysqli_fetch_assoc( $result )){
-                        $row['dagVanDeWeek'] = $days[$row['dagVanDeWeek']];
+                        $row['dag_van_de_week'] = $days[$row['dag_van_de_week']];
                         $data[] = $row;
                     }
 
@@ -199,6 +199,7 @@ function upadateProtocol($arguments, $mysqli){
 }
 
 function getProtocol($arguments, $mysqli){
+    //client only id
     $id = $arguments['id'];
 
     //make response
