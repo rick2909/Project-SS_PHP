@@ -1,9 +1,9 @@
 <?php
 
 //lees het config
-//require_once 'include/config.inc.php';
+require_once 'include/config.inc.php';
 
-require_once 'include/config2.inc.php';
+// require_once 'include/config2.inc.php';
 
 $arguments = [];
 
