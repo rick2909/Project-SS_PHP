@@ -27,7 +27,7 @@ $query = array();
 
 //create admin
 $query[] = "INSERT INTO `gebruikers` (`id`, `email`, `wachtwoord`, `achternaam`, `initialen`, `geslacht`, `locatie_id`, `functie_id`) 
-            VALUES (NULL, 'test@test.nl', 'df116d669dfb298c2b996711b876b6b0ab84a66a', 'admin test', T.a.T, '1', '1', '1')";
+            VALUES (NULL, 'test@test.nl', 'df116d669dfb298c2b996711b876b6b0ab84a66a', 'admin test', 'T.a.T', '1', '1', '1')";
 
 //create client
 for($i = 1; $i <= 6; $i++){
