@@ -33,8 +33,9 @@ $query[] = "INSERT INTO `gebruikers` (`id`, `email`, `wachtwoord`, `achternaam`,
 for($i = 1; $i <= 6; $i++){
     $rand = rand();
     $g = rand(0 , 1);
+    $email = $rand . "@test.nl";
     $query[] = "INSERT INTO `gebruikers` (`id`, `email`, `wachtwoord`, `achternaam`, `geslacht`, `locatie_id`, `functie_id`) 
-                VALUES (NULL, 'client@test.nl', 'df116d669dfb298c2b996711b876b6b0ab84a66a', '$rand', '$g', '$i', '2')";
+                VALUES (NULL, '$email', 'df116d669dfb298c2b996711b876b6b0ab84a66a', '$rand', '$g', '$i', '2')";
 }
 
 //create rooster voor admin
