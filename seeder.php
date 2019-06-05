@@ -8,22 +8,22 @@ require_once 'include/config2.inc.php';
 $query = array();
 
 //create functies
-$query[] = "INSERT INTO `functie` (`id`, `naam`, `extra_info`) VALUES (NULL, 'admin', 'this is the admin')";
-$query[] = "INSERT INTO `functie` (`id`, `naam`, `extra_info`) VALUES (NULL, 'client', 'this is the client')";
+// $query[] = "INSERT INTO `functie` (`id`, `naam`, `extra_info`) VALUES (NULL, 'admin', 'this is the admin')";
+// $query[] = "INSERT INTO `functie` (`id`, `naam`, `extra_info`) VALUES (NULL, 'client', 'this is the client')";
 
-//create locaties
-$query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
-            VALUES (NULL, 'Berkel en Rodenrijs', 'Rodenrijseweg 55', '2651BN', '4.472828', '51.990679')";
-$query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
-            VALUES (NULL, 'Berschenhoek', 'Tobias Asserlaan 1', '2662SB', '4.493406', '51.981631')";
-$query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
-            VALUES (NULL, 'Berkel en Rodenrijs', 'Archimedesstraat 1', '2652XR', '4.452851', '51.982310')";
-$query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
-            VALUES (NULL, 'Rotterdam', 'Wijnhaven 107', '3011WN', '4.483993', '51.917227')";
-$query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
-            VALUES (NULL, 'Rotterdam', 'Blijdorplaan 8', '3041JG', '4.443933', '51.928310')";
-$query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
-            VALUES (NULL, 'Rotterdam', 'Rotterdam Airportplein 60', '3045AP', '4.441171', '51.955835')";
+// //create locaties
+// $query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
+//             VALUES (NULL, 'Berkel en Rodenrijs', 'Rodenrijseweg 55', '2651BN', '4.472828', '51.990679')";
+// $query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
+//             VALUES (NULL, 'Berschenhoek', 'Tobias Asserlaan 1', '2662SB', '4.493406', '51.981631')";
+// $query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
+//             VALUES (NULL, 'Berkel en Rodenrijs', 'Archimedesstraat 1', '2652XR', '4.452851', '51.982310')";
+// $query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
+//             VALUES (NULL, 'Rotterdam', 'Wijnhaven 107', '3011WN', '4.483993', '51.917227')";
+// $query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
+//             VALUES (NULL, 'Rotterdam', 'Blijdorplaan 8', '3041JG', '4.443933', '51.928310')";
+// $query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
+//             VALUES (NULL, 'Rotterdam', 'Rotterdam Airportplein 60', '3045AP', '4.441171', '51.955835')";
 
 //create admin
 $query[] = "INSERT INTO `gebruikers` (`id`, `email`, `wachtwoord`, `achternaam`, `initialen`, `geslacht`, `locatie_id`, `functie_id`) 
