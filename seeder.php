@@ -9,7 +9,7 @@ $query = array();
 
 //create functies
 $query[] = "INSERT INTO `functie` (`id`, `naam`, `extra_info`) VALUES (NULL, 'admin', 'this is the admin')";
-$query[] = "INSERT INTO `functie` (`id`, `naam`, `extra_info`) VALUES (NULL, 'client', 'this is the)";
+$query[] = "INSERT INTO `functie` (`id`, `naam`, `extra_info`) VALUES (NULL, 'client', 'this is the client')";
 
 //create locaties
 $query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude`, `latitude`)
@@ -26,16 +26,16 @@ $query[] = "INSERT INTO `locatie` (`id`, `stad`, `adres`, `postcode`, `longitude
             VALUES (NULL, 'Rotterdam', 'Rotterdam Airportplein 60', '3045AP', '4.441171', '51.955835')";
 
 //create admin
-$query[] = "INSERT INTO `gebruikers` (`id`, `email`, `wachtwoord`, `achternaam`, `geslacht`, `locatie_id`, `functie_id`) 
-            VALUES (NULL, 'test@test.nl', 'df116d669dfb298c2b996711b876b6b0ab84a66a', 'admin test', '1', '1', '1')";
+$query[] = "INSERT INTO `gebruikers` (`id`, `email`, `wachtwoord`, `achternaam`, `initialen`, `geslacht`, `locatie_id`, `functie_id`) 
+            VALUES (NULL, 'test@test.nl', 'df116d669dfb298c2b996711b876b6b0ab84a66a', 'admin test', T.a.T, '1', '1', '1')";
 
 //create client
 for($i = 1; $i <= 6; $i++){
     $rand = rand();
     $g = rand(0 , 1);
     $email = $rand . "@test.nl";
-    $query[] = "INSERT INTO `gebruikers` (`id`, `email`, `wachtwoord`, `achternaam`, `geslacht`, `locatie_id`, `functie_id`) 
-                VALUES (NULL, '$email', 'df116d669dfb298c2b996711b876b6b0ab84a66a', '$rand', '$g', '$i', '2')";
+    $query[] = "INSERT INTO `gebruikers` (`id`, `email`, `wachtwoord`, `achternaam`, `initialen`, `geslacht`, `locatie_id`, `functie_id`) 
+                VALUES (NULL, '$email', 'df116d669dfb298c2b996711b876b6b0ab84a66a', '$rand', 'T.c.T', '$g', '$i', '2')";
 }
 
 //create rooster voor admin
