@@ -48,7 +48,7 @@ function login($arguments, $mysqli){
             $_SESSION['user'] = "admin";
             $response['error'] = FALSE;
             $response['message'] = "u bent ingelogd";
-            $response['user'] = json_encode($user);
+            $response['user'] = $user;
         } else {
             $response['message'] = 'verkeerde wachtwoord en of gebruikersnaam';
         }
@@ -67,7 +67,10 @@ function getMaps($arguments, $mysqli){
     $response['error'] = TRUE;
 
     //geef de juiste dag mee
-    $arguments['dag'] = date('Y-m-d');;
+    $arguments['dag'] = date('w');
+
+    //say it is called from getMaps
+    $arguments['maps'] = TRUE;
 
     // haal de mensen op die in het rooster staan
     $rooster = getRooster($arguments, $mysqli);
@@ -79,9 +82,9 @@ function getMaps($arguments, $mysqli){
         $locations = array();
         $clientenGegevens = array();
         foreach($clienten as $roosterClient){
-            $clientId = $roosterClient['id'];
+            $clientId = $roosterClient['gebruikers_id'];
 
-            $query = "SELECT `id`, `achternaam`, `initialen`, `Geslacht`, `locatie-id` FROM `gebruikers` WHERE `id` = '$clientId'";
+            $query = "SELECT `id`, `achternaam`, `initialen`, `Geslacht`, `locatie_id` FROM `gebruikers` WHERE `id` = '$clientId'";
             $result = mysqli_query($mysqli, $query);
 
             if(mysqli_num_rows($result) == 1){
@@ -89,7 +92,7 @@ function getMaps($arguments, $mysqli){
 
                 $clientenGegevens[] = $client;
 
-                $locatieId = $client['locatie-id'];
+                $locatieId = $client['locatie_id'];
 
                 $query = "SELECT * FROM `locatie` WHERE `id` = '$locatieId'";
                 $result = mysqli_query($mysqli, $query);
@@ -98,25 +101,37 @@ function getMaps($arguments, $mysqli){
                     $locations[$client['id']] = mysqli_fetch_assoc( $result );
                 }
             }
-
-            $response['error'] = FALSE;
-            $response['locaties'] = $locations;
-            $response['clienten'] = $clientenGegevens;
-            $response['message'] = 'Hier de locaties.';
         }
+
+        $response['error'] = FALSE;
+        $response['locaties'] = $locations;
+        $response['clienten'] = $clientenGegevens;
+        $response['message'] = 'Hier de locaties.';
+
+        echo "<br> Locaties: <br>" . json_encode($response['locaties']) . "<br> Clienten: <br>" . json_encode($response['clienten']);
     }else{
         $response['message'] = 'Er zijn geen clienten vandaag. U bent vrij!';
     }
-    echo json_encode($response);
+    // echo json_encode($response);
     return json_encode($response);
 }
 
 function getRooster($arguments, $mysqli){
+    // logged in user ID
     $id = $arguments['id'];
 
     //make response
     $response = array();
     $response['error'] = TRUE;
+
+    $isDagGegeven = FALSE;
+
+    if(array_key_exists('dag', $arguments)){
+        $opgrvraagdeDag = $arguments['dag'];
+        $isDagGegeven = TRUE;
+    }
+
+    $and = ($isDagGegeven ? "AND `dag_van_de_week` = $opgrvraagdeDag ": "");
 
     $days = [
         1 => 'Maandag',
@@ -130,7 +145,7 @@ function getRooster($arguments, $mysqli){
 
     // haal de mensen op die in het rooster staan
     if(strlen($id) > 0){
-        $query = "SELECT * FROM `rooster` WHERE `gebruikers-id` = '$id'";
+        $query = "SELECT * FROM `rooster` WHERE `gebruikers_id` = $id";
 
         $result = mysqli_query($mysqli, $query);
 
@@ -141,7 +156,7 @@ function getRooster($arguments, $mysqli){
             $roosterId = $rooster['id'];
 
             if( isset($roosterId) ){
-                $query = "SELECT * FROM `client_in_rooster` WHERE `rooster-id` = '$roosterId' ORDER BY `tijd`";
+                $query = "SELECT * FROM `client_in_rooster` WHERE `rooster_id` = '$roosterId' " . ($isDagGegeven ? "AND `dag_van_de_week` = $opgrvraagdeDag ": "") . "ORDER BY `tijd`";
 
                 $result = mysqli_query($mysqli, $query);
 
@@ -168,11 +183,17 @@ function getRooster($arguments, $mysqli){
     }else{
         $response['message'] = 'Er is geen id opgegeven';
     }
-    echo json_encode($response);
-    return json_encode($response);
+
+    if($arguments['maps']){
+        return json_encode($response);
+    }else{
+        echo json_encode($response);
+        return json_encode($response);
+    }
 }
 
 function upadateProtocol($arguments, $mysqli){
+    // Client ID
     $id = $arguments['id'];
     $protocol = $arguments['protocol'];
 
@@ -226,6 +247,7 @@ function getProtocol($arguments, $mysqli){
 }
 
 function getOpmerkingen($arguments, $mysqli){
+    //Protocol ID
     $id = $arguments['id'];
 
     //make response
@@ -253,6 +275,7 @@ function getOpmerkingen($arguments, $mysqli){
 }
 
 function addOpmerking($arguments, $mysqli){
+    //Protocol ID
     $id = $arguments['id'];
     $titel = $arguments['titel'];
     $opmerking = $arguments['opmerking'];
@@ -262,7 +285,7 @@ function addOpmerking($arguments, $mysqli){
     $response['error'] = TRUE;
 
     if(strlen($id) > 0 && strlen($titel) > 0 && strlen($opmerking) > 0){
-        $query = "INSERT INTO `opmerekingen` (`id`, `titel`, `opmerking`, `raport_id`) VALUES (NULL, '$titel', '$opmerking', '$id')";
+        $query = "INSERT INTO `opmerkingen` (`id`, `titel`, `opmerking`, `raport_id`) VALUES (NULL, '$titel', '$opmerking', '$id')";
 
         if(mysqli_query($mysqli, $query)){
             $response['message'] = 'Toevoegen is succesvol met: ' . $titel;
