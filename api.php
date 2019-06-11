@@ -169,7 +169,7 @@ function getRooster($arguments, $mysqli){
                         $resultC = mysqli_query($mysqli, $query);
 
                         if(mysqli_num_rows($resultC) == 1){
-                            $clientInRooster = mysqli_fetch_assoc($resultC)
+                            $clientInRooster = mysqli_fetch_assoc($resultC);
                             $row['gebruikers_id'] = $clientInRooster['achternaam'];
                         }
 
