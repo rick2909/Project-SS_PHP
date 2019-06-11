@@ -255,15 +255,24 @@ function getOpmerkingen($arguments, $mysqli){
     $response['error'] = TRUE;
 
     if(strlen($id) > 0){
-        $protocol = getProtocol($arguments, $mysqli);
-        $protocol = json_decode($protocol, TRUE);
+        //query for control
+        $query = "SELECT * FROM `opmerkingen` WHERE `raport_id` = '$id'";
 
-        if(mysqli_num_rows($result) == 1){
-            $response['Protocol'] = mysqli_fetch_assoc( $result );
-            $response['message'] = 'Protocol is succesvol opgehaalt';
+        //query work
+        $result = mysqli_query($mysqli, $query);
+
+        if(mysqli_num_rows($result) >= 1){
+
+            $opmerkingen = array();
+            while ($row = mysqli_fetch_assoc( $result )){
+                $opmerkingen[] = $row;
+            }
+
+            $response['opmerkingen'] = $opmerkingen;
+            $response['message'] = 'Opmerkingen zijn succesvol opgehaalt';
             $response['error'] = FALSE;
         }else {
-            $response['message'] = 'Er is geen protocol voor deze persoon melt het of maak er een aan';
+            $response['message'] = 'Er is zijn geen opmerkingen';
         }
 
     }else{
@@ -296,6 +305,43 @@ function addOpmerking($arguments, $mysqli){
     }else{
         $response['message'] = 'Geen id opgegeven';
     }
+    echo json_encode($response);
+    return json_encode($response);
+}
+
+function getAllClienten($arguments, $mysqli){
+    //logged in ID
+    $id = $arguments['id'];
+
+    //make response
+    $response = array();
+    $response['error'] = TRUE;
+
+    if(strlen($id) > 0){
+        //query for control
+        $query = "SELECT * FROM `gebruikers` WHERE `functie_id` = '2'";
+
+        //query work
+        $result = mysqli_query($mysqli, $query);
+
+        if(mysqli_num_rows($result) >= 1){
+
+            $clienten = array();
+            while ($row = mysqli_fetch_assoc( $result )){
+                $clienten[] = $row;
+            }
+
+            $response['clienten'] = $clienten;
+            $response['message'] = 'Clienten zijn succesvol opgehaalt';
+            $response['error'] = FALSE;
+        }else {
+            $response['message'] = 'Er is zijn geen clienten';
+        }
+
+    }else{
+        $response['message'] = 'Geen id opgegeven';
+    }
+
     echo json_encode($response);
     return json_encode($response);
 }
