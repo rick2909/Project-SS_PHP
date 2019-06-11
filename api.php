@@ -131,7 +131,7 @@ function getRooster($arguments, $mysqli){
         $isDagGegeven = TRUE;
     }
 
-    $maps = ($arguments['maps'] ? TRUE: FALSE);
+    $maps = (array_key_exists('dag', $arguments) ? TRUE: FALSE);
 
     $days = [
         1 => 'Maandag',
