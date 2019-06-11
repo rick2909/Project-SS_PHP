@@ -131,7 +131,7 @@ function getRooster($arguments, $mysqli){
         $isDagGegeven = TRUE;
     }
 
-    $and = ($isDagGegeven ? "AND `dag_van_de_week` = $opgrvraagdeDag ": "");
+    $maps = ($arguments['maps'] ? TRUE: FALSE);
 
     $days = [
         1 => 'Maandag',
@@ -184,7 +184,7 @@ function getRooster($arguments, $mysqli){
         $response['message'] = 'Er is geen id opgegeven';
     }
 
-    if($arguments['maps']){
+    if($maps){
         return json_encode($response);
     }else{
         echo json_encode($response);
