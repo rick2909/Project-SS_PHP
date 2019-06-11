@@ -163,6 +163,16 @@ function getRooster($arguments, $mysqli){
                 if(mysqli_num_rows($result) >= 1){
                     $data = array();
                     while ($row = mysqli_fetch_assoc( $result )){
+                        $clientId = $row['gebruikers_id'];
+
+                        $query = "SELECT * FROM `gebruikers` WHERE `id` = '$clientId'";
+                        $resultC = mysqli_query($mysqli, $query);
+
+                        if(mysqli_num_rows($resultC) > ==){
+                            $clientInRooster = mysqli_fetch_assoc($resultC)
+                            $row['gebruikers_id'] = $clientInRooster['achternaam'];
+                        }
+
                         $row['dag_van_de_week'] = $days[$row['dag_van_de_week']];
                         $data[] = $row;
                     }
