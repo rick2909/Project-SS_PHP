@@ -156,7 +156,7 @@ function getRooster($arguments, $mysqli){
             $roosterId = $rooster['id'];
 
             if( isset($roosterId) ){
-                $query = "SELECT * FROM `client_in_rooster` WHERE `rooster_id` = '$roosterId' " . ($isDagGegeven ? "AND `dag_van_de_week` = $opgrvraagdeDag ": "") . "ORDER BY `tijd`";
+                $query = "SELECT * FROM `client_in_rooster` WHERE `rooster_id` = '$roosterId' " . ($isDagGegeven ? "AND `dag_van_de_week` = $opgrvraagdeDag ORDER BY `dag_van_de_week` ASC, ": "ORDER BY ") . "`tijd` ASC";
 
                 $result = mysqli_query($mysqli, $query);
 
