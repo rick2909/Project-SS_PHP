@@ -252,6 +252,7 @@ function getProtocol($arguments, $mysqli){
     }else{
         $response['message'] = 'Geen id opgegeven';
     }
+
     echo json_encode($response);
     return json_encode($response);
 }
@@ -338,6 +339,11 @@ function getAllClienten($arguments, $mysqli){
 
             $clienten = array();
             while ($row = mysqli_fetch_assoc( $result )){
+                if($row['Geslacht'] == 1){
+                    $row['Geslacht'] = "Man";
+                }else{
+                    $row['Geslacht'] = "Vrouw";
+                }
                 $clienten[] = $row;
             }
 
@@ -346,6 +352,34 @@ function getAllClienten($arguments, $mysqli){
             $response['error'] = FALSE;
         }else {
             $response['message'] = 'Er is zijn geen clienten';
+        }
+
+    }else{
+        $response['message'] = 'Geen id opgegeven';
+    }
+
+    echo json_encode($response);
+    return json_encode($response);
+}
+
+function getClientsLoactien($arguments, $mysqli){
+    //Location ID
+    $id = $arguments['id'];
+
+    //make response
+    $response = array();
+    $response['error'] = TRUE;
+
+    if(strlen($id) > 0){
+        $query = "SELECT * FROM `locatie` WHERE id = '$id'";
+        $result = mysqli_query($mysqli, $query);
+
+        if(mysqli_num_rows($result) == 1){
+            $response['locatie'] = mysqli_fetch_assoc( $result );
+            $response['message'] = 'Locatie is succesvol opgehaalt';
+            $response['error'] = FALSE;
+        }else {
+            $response['message'] = 'Er is geen locatie voor deze persoon melt het of maak er een aan';
         }
 
     }else{
